@@ -35,25 +35,28 @@
             // 
             // origem
             // 
-            origem.Location = new Point(0, 0);
+            origem.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            origem.Location = new Point(0, 28);
             origem.Multiline = true;
             origem.Name = "origem";
-            origem.Size = new Size(356, 411);
+            origem.Size = new Size(540, 781);
             origem.TabIndex = 0;
             // 
             // Destino
             // 
-            Destino.Location = new Point(411, 0);
+            Destino.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Destino.Location = new Point(546, 28);
             Destino.Multiline = true;
             Destino.Name = "Destino";
-            Destino.Size = new Size(356, 411);
+            Destino.Size = new Size(567, 781);
             Destino.TabIndex = 1;
             // 
             // Transforma
             // 
-            Transforma.Location = new Point(358, 180);
+            Transforma.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            Transforma.Location = new Point(0, -3);
             Transforma.Name = "Transforma";
-            Transforma.Size = new Size(47, 23);
+            Transforma.Size = new Size(1113, 25);
             Transforma.TabIndex = 2;
             Transforma.Text = ">>";
             Transforma.UseVisualStyleBackColor = true;
@@ -63,7 +66,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1119, 812);
             Controls.Add(Transforma);
             Controls.Add(Destino);
             Controls.Add(origem);

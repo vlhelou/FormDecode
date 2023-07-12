@@ -73,7 +73,7 @@ internal static class Decode
                 //string conteudo = $"new KeyValuePair<string, string>(\"{chave}\", \"{valor}\"),";
                 
 
-                saida.AppendLine($"new KeyValuePair<string, string>(\"{chave}\", \"{valor}\"),");
+                saida.AppendLine($"new KeyValuePair<string, string>({chave}, {valor}),");
             }
         }
         return saida.ToString();

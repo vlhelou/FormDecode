@@ -13,9 +13,9 @@ public partial class Form1 : Form
 
     private void Transforma_Click(object sender, EventArgs e)
     {
-        var lnOrigem= origem.Text.Split("\r\n");
-        var linhas = lnOrigem.Where(p=>!string.IsNullOrEmpty(p)).ToList();
-        if (linhas.Count > 0 )
+        var lnOrigem = origem.Text.Split("\r\n");
+        var linhas = lnOrigem.Where(p => !string.IsNullOrEmpty(p)).ToList();
+        if (linhas.Count > 0)
         {
             var linha = linhas.First().Trim();
             if (linha.ToLower().StartsWith("curl"))
