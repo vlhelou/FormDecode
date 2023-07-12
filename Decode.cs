@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace DecodForm;
 
@@ -66,10 +67,13 @@ internal static class Decode
             if (chaveValor.Length == 2)
             {
 
-                var chave = chaveValor[0];
-                var valor = chaveValor[1];
+                var chave = SymbolDisplay.FormatLiteral(HttpUtility.UrlDecode(chaveValor[0]), true);
+                var valor = SymbolDisplay.FormatLiteral(HttpUtility.UrlDecode(chaveValor[1]), true);
 
-                saida.AppendLine($"new KeyValuePair<string, string>(\"{HttpUtility.UrlDecode(chave)}\", \"{HttpUtility.UrlDecode(valor)}\"),");
+                //string conteudo = $"new KeyValuePair<string, string>(\"{chave}\", \"{valor}\"),";
+                
+
+                saida.AppendLine($"new KeyValuePair<string, string>(\"{chave}\", \"{valor}\"),");
             }
         }
         return saida.ToString();
