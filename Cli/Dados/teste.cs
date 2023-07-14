@@ -42,10 +42,8 @@ public class Pagetimings
 
 public class Entry
 {
-    public _Initiator _initiator { get; set; }
     public string _priority { get; set; }
     public string _resourceType { get; set; }
-    public Cache cache { get; set; }
     public string connection { get; set; }
     public string pageref { get; set; }
     public Request request { get; set; }
@@ -53,17 +51,9 @@ public class Entry
     public string serverIPAddress { get; set; }
     public DateTime startedDateTime { get; set; }
     public float time { get; set; }
-    public Timings timings { get; set; }
     public string _fromCache { get; set; }
 }
 
-public class _Initiator
-{
-    public string type { get; set; }
-    public Stack stack { get; set; }
-    public string url { get; set; }
-    public int lineNumber { get; set; }
-}
 
 public class Stack
 {
@@ -89,9 +79,6 @@ public class Callframe
 }
 
 
-public class Cache
-{
-}
 
 public class Request
 {
@@ -186,14 +173,3 @@ public class Cooky1
     public string sameSite { get; set; }
 }
 
-public class Timings
-{
-    public float blocked { get; set; }
-    public float dns { get; set; }
-    public float ssl { get; set; }
-    public float connect { get; set; }
-    public float send { get; set; }
-    public float wait { get; set; }
-    public float receive { get; set; }
-    public float _blocked_queueing { get; set; }
-}

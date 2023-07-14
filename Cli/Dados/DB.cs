@@ -11,8 +11,9 @@ internal class DB: DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Filename=roteiro.sqlite");
+        optionsBuilder.UseSqlite("Filename=D:\\Git\\FormDecode\\Cli\\roteiro.sqlite");
     }
 
-    public DbSet<Roteiro> Roteiros { get; set; } = null!;
+    public DbSet<Roteiro> Roteiro { get; set; } = null!;
+    public DbSet<Requisicao> Requisicao { get; set; } = null!;
 }
