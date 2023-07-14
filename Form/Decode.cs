@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace DecodForm;
@@ -14,10 +16,15 @@ internal static class Decode
     {
         System.Text.StringBuilder saida = new();
         var linhas = origem.Split("\r\n");
+        string cookies = string.Empty;
 
         foreach (var linha in linhas)
         {
-            if (linha.Trim().StartsWith("-H"))
+            if (linha.Trim().StartsWith("-H 'cookie:"))
+            {
+                cookies = Decode.TransformaCookie(linha.Trim());
+            }
+            else if (linha.Trim().StartsWith("-H"))
             {
                 int pontoI = linha.IndexOf("\'");
                 if (pontoI == -1)
@@ -36,7 +43,7 @@ internal static class Decode
                     saida.AppendLine($"client.DefaultRequestHeaders.Add(\"{chave}\",\"{valor}\");");
 
             }
-            if (linha.Trim().StartsWith("--data-raw"))
+            else if (linha.Trim().StartsWith("--data-raw"))
             {
                 int pontoI = linha.IndexOf("\'");
 
@@ -51,6 +58,8 @@ internal static class Decode
 
             }
         }
+        if (!string.IsNullOrEmpty(cookies))
+            saida.AppendLine(cookies);
 
 
 
@@ -78,6 +87,31 @@ internal static class Decode
         }
         return saida.ToString();
 
+    }
+
+    public  static string TransformaCookie(string origem)
+    {
+        System.Text.StringBuilder retorno = new();
+        int ponto1 = origem.IndexOf("'cookie:");
+        if (ponto1 == -1)
+            return string.Empty;
+        int ponto2 = origem.LastIndexOf("\'");
+        if (ponto2==-1)
+            return string.Empty;
+
+        string[] pares = origem.Substring(ponto1 + 9, ponto2 - ponto1 - 9).Split(";");
+        foreach(string par in pares)
+        {
+            Console.WriteLine(par);
+            if (par.IndexOf("=") != -1)
+            {
+                string nome = WebUtility.UrlDecode( par.Split("=").First());
+                string valor = WebUtility.UrlDecode( par.Split("=").Last());
+                retorno.AppendLine($$"""cookieContainer.Add(new Cookie() { Name = "{{nome}}", Value = "{{valor}}" }); """);
+            }
+        }
+
+        return retorno.ToString();
     }
 
 }
