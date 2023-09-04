@@ -18,11 +18,15 @@ internal static class Decode
         var linhas = origem.Split("\r\n");
         string cookies = string.Empty;
 
-        foreach (var linha in linhas)
+        foreach (string linha in linhas)
         {
             if (linha.Trim().StartsWith("-H 'cookie:"))
             {
                 cookies = Decode.TransformaCookie(linha.Trim());
+            }
+            else if (linha.Trim().StartsWith("-H 'content-type:"))
+            {
+                continue;
             }
             else if (linha.Trim().StartsWith("-H"))
             {
@@ -51,10 +55,12 @@ internal static class Decode
                 if (pontoF <= pontoI)
                     continue;
                 string dadosFormulario = linha.Substring(pontoI + 1, pontoF - pontoI - 1);
-                saida.AppendLine("var content = new FormUrlEncodedContent(new[]");
-                saida.AppendLine("{");
+                saida.AppendLine("List<KeyValuePair<string, string>> FormValores = new List<KeyValuePair<string, string>>();");
+                //saida.AppendLine("var content = new FormUrlEncodedContent(new[]");
+                //saida.AppendLine("{");
                 saida.AppendLine(DecodeFormUrl(dadosFormulario));
-                saida.AppendLine("});");
+                //saida.AppendLine("});");
+                saida.AppendLine("var content = new FormUrlEncodedContent(FormValores);");
 
             }
         }
@@ -81,8 +87,7 @@ internal static class Decode
 
                 //string conteudo = $"new KeyValuePair<string, string>(\"{chave}\", \"{valor}\"),";
                 
-
-                saida.AppendLine($"new KeyValuePair<string, string>({chave}, {valor}),");
+                saida.AppendLine($"FormValores.Add(new KeyValuePair<string, string>({chave}, {valor}));");
             }
         }
         return saida.ToString();
@@ -105,9 +110,9 @@ internal static class Decode
             Console.WriteLine(par);
             if (par.IndexOf("=") != -1)
             {
-                string nome = WebUtility.UrlDecode( par.Split("=").First());
-                string valor = WebUtility.UrlDecode( par.Split("=").Last());
-                retorno.AppendLine($$"""cookieContainer.Add(new Cookie() { Name = "{{nome}}", Value = "{{valor}}" }); """);
+                string nome = WebUtility.UrlDecode( par.Split("=").First().Trim());
+                string valor = WebUtility.UrlDecode( par.Split("=").Last().Trim());
+                retorno.AppendLine($$"""cookieContainer.Add(new Cookie() { Name = "{{nome}}", Value = "{{valor}}", Domain= "dominio.com.br" }); """);
             }
         }
 
